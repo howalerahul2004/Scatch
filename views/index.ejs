@@ -1,0 +1,45 @@
+<%- include('./partials/header') %>
+
+<% if(typeof error !== 'undefined' && error.length > 0){ %>
+    <div class="absolute top-5 left-1/2 -translate-x-1/2 -translate-y-1/2 p-3 rounded-md bg-red-500 z-50">
+        <span class="inline-block mt-1 mb-1 text-white">
+            <%= error %>
+        </span>
+    </div>
+<% } %>
+
+<div class="w-full h-screen flex items-center justify-center bg-gradient-to-br from-blue-50 to-blue-100">
+    <div class="text-center">
+        <h1 class="text-6xl font-bold mb-4 text-gray-800">Welcome to <span class="text-blue-500">Scatch</span></h1>
+        <p class="text-xl text-gray-600 mb-10">Your premier destination for premium bags and accessories</p>
+        
+        <div class="flex gap-6 justify-center">
+            <a href="/users/login" class="px-8 py-4 bg-blue-500 text-white rounded-full text-lg font-semibold hover:bg-blue-600 transition shadow-lg">
+                Login
+            </a>
+            <a href="/users/register" class="px-8 py-4 bg-white text-blue-500 border-2 border-blue-500 rounded-full text-lg font-semibold hover:bg-blue-50 transition shadow-lg">
+                Register
+            </a>
+        </div>
+
+        <div class="mt-16 grid grid-cols-3 gap-8 max-w-4xl">
+            <div class="bg-white p-6 rounded-lg shadow">
+                <div class="text-3xl mb-3">🛍️</div>
+                <h3 class="font-semibold text-gray-800">Premium Quality</h3>
+                <p class="text-gray-600 text-sm mt-2">Handpicked bags from top designers</p>
+            </div>
+            <div class="bg-white p-6 rounded-lg shadow">
+                <div class="text-3xl mb-3">🚚</div>
+                <h3 class="font-semibold text-gray-800">Fast Delivery</h3>
+                <p class="text-gray-600 text-sm mt-2">Free shipping on orders above ₹500</p>
+            </div>
+            <div class="bg-white p-6 rounded-lg shadow">
+                <div class="text-3xl mb-3">💯</div>
+                <h3 class="font-semibold text-gray-800">Secure Shopping</h3>
+                <p class="text-gray-600 text-sm mt-2">100% authentic products guaranteed</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<%- include('./partials/footer') %>

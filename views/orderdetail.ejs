@@ -1,0 +1,106 @@
+<%- include('./partials/header') %>
+
+<div class="w-full min-h-screen px-20 py-20">
+    <div class="max-w-4xl mx-auto">
+        <a href="/orders" class="text-blue-500 hover:underline mb-8 inline-block">← Back to Orders</a>
+        
+        <div class="bg-white p-8 rounded-lg shadow">
+            <div class="flex justify-between items-start mb-8">
+                <div>
+                    <h1 class="text-3xl font-bold">Order #<%= order._id.toString().slice(-8).toUpperCase() %></h1>
+                    <p class="text-gray-600 mt-2">Placed on <%= new Date(order.createdAt).toLocaleDateString() %></p>
+                </div>
+                <% 
+                    let statusColor = '#FFA500';
+                    if(order.status === 'pending') statusColor = '#FFA500';
+                    else if(order.status === 'confirmed') statusColor = '#4169E1';
+                    else if(order.status === 'shipped') statusColor = '#9370DB';
+                    else if(order.status === 'delivered') statusColor = '#28A745';
+                    else statusColor = '#DC3545';
+                %>
+                <span class="px-4 py-2 rounded-full text-white text-lg font-semibold status-badge" data-bg="<%= statusColor %>">
+                    <%= order.status.charAt(0).toUpperCase() + order.status.slice(1) %>
+                </span>
+            </div>
+            
+            <div class="grid grid-cols-2 gap-8 mb-8">
+                <div>
+                    <h3 class="font-semibold text-lg mb-4 border-b pb-2">Shipping Address</h3>
+                    <p class="text-gray-700"><%= order.shippingAddress %></p>
+                </div>
+                <div>
+                    <h3 class="font-semibold text-lg mb-4 border-b pb-2">Payment Method</h3>
+                    <p class="text-gray-700"><%= order.paymentMethod.toUpperCase() %></p>
+                </div>
+            </div>
+            
+            <h3 class="font-semibold text-lg mb-4 border-b pb-2">Order Items</h3>
+            <div class="space-y-4 mb-8">
+                <% order.products.forEach(product => { %>
+                    <div class="border-b pb-4 flex justify-between items-center">
+                        <div class="flex gap-4">
+                            <div class="product-image-box" data-bgcolor="<%= product.bgcolor %>" style="width: 80px; height: 80px; display: flex; align-items: center; justify-content: center; border-radius: 8px;">
+                                <% if(typeof product.image === 'string') { %>
+                                    <img class="h-16 object-contain" src="<%= product.image %>" alt="<%= product.name %>">
+                                <% } else { %>
+                                    <img class="h-16 object-contain" src="data:image/jpeg;base64,<%= product.image.toString('base64') %>" alt="<%= product.name %>">
+                                <% } %>
+                            </div>
+                            <div>
+                                <h4 class="font-semibold"><%= product.name %></h4>
+                                <p class="text-gray-600">Price: ₹<%= product.price %></p>
+                                <p class="text-gray-600">Discount: ₹<%= product.discount %></p>
+                            </div>
+                        </div>
+                        <p class="font-semibold">₹<%= product.price - product.discount %></p>
+                    </div>
+                <% }); %>
+            </div>
+            
+            <div class="bg-gray-100 p-6 rounded-lg">
+                <div class="flex justify-between mb-3">
+                    <span>Total MRP</span>
+                    <span>₹<%= order.totalMRP %></span>
+                </div>
+                <div class="flex justify-between mb-3">
+                    <span>Discount</span>
+                    <span>-₹<%= order.totalDiscount %></span>
+                </div>
+                <div class="flex justify-between mb-3">
+                    <span>Platform Fee</span>
+                    <span>₹<%= order.platformFee %></span>
+                </div>
+                <div class="flex justify-between mb-3">
+                    <span>Shipping Fee</span>
+                    <span><% if(order.shippingFee === 0) { %>FREE<% } else { %>₹<%= order.shippingFee %><% } %></span>
+                </div>
+                <div class="border-t pt-3 flex justify-between text-xl font-bold">
+                    <span>Total Amount</span>
+                    <span>₹<%= order.totalAmount %></span>
+                </div>
+            </div>
+            
+            <div class="mt-8 flex gap-4">
+                <a href="/orders" class="px-6 py-2 bg-gray-500 text-white rounded hover:bg-gray-600 transition">
+                    Back to Orders
+                </a>
+                <% if(order.status === 'delivered') { %>
+                    <button class="px-6 py-2 bg-green-500 text-white rounded hover:bg-green-600 transition">
+                        Leave Review
+                    </button>
+                <% } %>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    document.querySelectorAll('.status-badge[data-bg]').forEach(el => {
+        el.style.backgroundColor = el.getAttribute('data-bg');
+    });
+    document.querySelectorAll('.product-image-box[data-bgcolor]').forEach(el => {
+        el.style.backgroundColor = el.getAttribute('data-bgcolor');
+    });
+</script>
+
+<%- include('./partials/footer') %>

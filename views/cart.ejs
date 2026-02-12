@@ -1,0 +1,106 @@
+<%- include('./partials/header') %>
+
+<div class="w-full min-h-screen flex items-start px-20 py-20 gap-10">
+    <div class="w-[30%]">
+        <h3 class="text-2xl font-bold mb-5">Cart Items (<%= products.length %>)</h3>
+        <div class="space-y-4">
+            <% if(products.length > 0) { %>
+                <% products.forEach(product => { %>
+                    <div class="border-[1px] border-zinc-300 rounded-md overflow-hidden">
+                        <div class="w-full h-32 bg-yellow-500 flex items-center justify-center">
+                            <% if(product.image) { %>
+                                <% if(typeof product.image === 'string') { %>
+                                    <img class="h-24 object-contain" src="<%= product.image %>" alt="<%= product.name %>">
+                                <% } else { %>
+                                    <img class="h-24 object-contain" src="data:image/jpeg;base64,<%= product.image.toString('base64') %>" alt="<%= product.name %>">
+                                <% } %>
+                            <% } %>
+                        </div>
+                        <div class="w-full flex justify-between px-4 py-3">
+                            <div>
+                                <h3 class="font-semibold"><%= product.name %></h3>
+                                <h4 class="text-sm text-gray-600">₹ <%= product.price %></h4>
+                            </div>
+                            <a href="/removefromcart/<%= product._id %>" class="text-red-500 text-sm hover:underline">Remove</a>
+                        </div>
+                    </div>
+                <% }) %>
+            <% } else { %>
+                <p class="text-gray-500">Your cart is empty</p>
+            <% } %>
+        </div>
+    </div>
+
+    <div class="w-[70%]">
+        <h3 class="text-2xl font-bold mb-5">Price Breakdown</h3>
+        <div class="bg-zinc-100 p-6 rounded-md mb-6">
+            <div class="space-y-3">
+                <div class="flex justify-between">
+                    <h4 class="text-lg">Total MRP</h4>
+                    <h4 class="text-lg font-semibold">₹ <%= totalMRP %></h4>
+                </div>
+                <div class="flex justify-between">
+                    <h4 class="text-lg">Discount on MRP</h4>
+                    <h4 class="text-lg font-semibold">-₹ <%= totalDiscount %></h4>
+                </div>
+                <div class="flex justify-between">
+                    <h4 class="text-lg">Platform Fee</h4>
+                    <h4 class="text-lg font-semibold">₹ <%= platformFee %></h4>
+                </div>
+                <div class="flex justify-between">
+                    <h4 class="text-lg">Shipping Fee</h4>
+                    <h4 class="text-lg font-semibold">
+                        <% if(shippingFee === 0) { %>
+                            FREE
+                        <% } else { %>
+                            ₹ <%= shippingFee %>
+                        <% } %>
+                    </h4>
+                </div>
+            </div>
+            <div class="w-full h-1 bg-gray-300 my-4"></div>
+            <div class="flex justify-between">
+                <h3 class="text-xl font-bold">Total Amount</h3>
+                <h3 class="text-xl font-bold text-green-600">₹ <%= totalAmount %></h3>
+            </div>
+        </div>
+
+        <% if(products.length > 0) { %>
+            <h3 class="text-2xl font-bold mb-5">Checkout</h3>
+            <form action="/checkout" method="post" class="bg-white p-6 rounded-md border">
+                <div class="mb-6">
+                    <label class="block mb-2 font-semibold text-gray-700">Shipping Address</label>
+                    <textarea name="shippingAddress" placeholder="Enter your complete shipping address..." class="w-full border p-3 rounded focus:outline-none focus:border-blue-500" rows="3" required></textarea>
+                </div>
+
+                <div class="mb-6">
+                    <label class="block mb-2 font-semibold text-gray-700">Payment Method</label>
+                    <div class="space-y-2">
+                        <label class="flex items-center">
+                            <input type="radio" name="paymentMethod" value="cod" checked class="form-radio">
+                            <span class="ml-2">Cash on Delivery (COD)</span>
+                        </label>
+                        <label class="flex items-center">
+                            <input type="radio" name="paymentMethod" value="card" class="form-radio" disabled>
+                            <span class="ml-2 text-gray-400">Credit/Debit Card (Coming Soon)</span>
+                        </label>
+                        <label class="flex items-center">
+                            <input type="radio" name="paymentMethod" value="wallet" class="form-radio" disabled>
+                            <span class="ml-2 text-gray-400">Wallet (Coming Soon)</span>
+                        </label>
+                    </div>
+                </div>
+
+                <button type="submit" class="w-full px-5 py-3 rounded-md bg-green-600 text-white font-semibold hover:bg-green-700 transition">
+                    Place Order - ₹ <%= totalAmount %>
+                </button>
+            </form>
+        <% } %>
+
+        <div class="mt-8">
+            <a href="/shop" class="text-blue-500 font-semibold hover:underline">← Continue Shopping</a>
+        </div>
+    </div>
+</div>
+
+<%- include('./partials/footer') %>

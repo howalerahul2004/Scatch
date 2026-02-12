@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Scatch - Premium Bags & Accessories</title>
+    <link href="https://cdn.jsdelivr.net/npm/remixicon@4.2.0/fonts/remixicon.css" rel="stylesheet" />
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+
+<body class="font-['helvetica_now_display']">
+    <nav class="w-full bg-white shadow-sm sticky top-0 z-40">
+        <div class="flex justify-between items-center px-8 py-4">
+            <a href="/" class="text-2xl font-bold">
+                <span class="text-blue-500">Scatch</span>
+            </a>
+            
+            <% var isLoggedIn = typeof user !== "undefined" && user %>
+            
+            <div class="flex gap-6 items-center">
+                <% if(isLoggedIn){ %>
+                    <a href="/shop" class="text-gray-700 hover:text-blue-500 font-medium transition">Shop</a>
+                    <a href="/wishlist" class="text-gray-700 hover:text-blue-500 font-medium transition flex items-center gap-2">
+                        <i class="ri-heart-line"></i>
+                        Wishlist
+                    </a>
+                    <a href="/cart" class="text-gray-700 hover:text-blue-500 font-medium transition flex items-center gap-2">
+                        <i class="ri-shopping-cart-line"></i>
+                        Cart
+                    </a>
+                    <a href="/orders" class="text-gray-700 hover:text-blue-500 font-medium transition flex items-center gap-2">
+                        <i class="ri-file-list-line"></i>
+                        Orders
+                    </a>
+                    <a href="/account" class="text-gray-700 hover:text-blue-500 font-medium transition flex items-center gap-2">
+                        <i class="ri-user-line"></i>
+                        <%= user.fullname ? user.fullname.split(' ')[0] : 'Account' %>
+                    </a>
+                    <a href="/users/logout" class="text-red-600 hover:text-red-700 font-medium transition">Logout</a>
+                <% } else { %>
+                    <a href="/users/login" class="text-gray-700 hover:text-blue-500 font-medium transition">Login</a>
+                    <a href="/users/register" class="px-4 py-2 bg-blue-500 text-white rounded-full hover:bg-blue-600 transition">
+                        Register
+                    </a>
+                <% } %>
+            </div>
+        </div>
+    </nav>
