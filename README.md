@@ -1,4 +1,4 @@
-# Scatch - E-Commerce Platform
+# E-Commerce Platform
 
 A full-stack Node.js/Express e-commerce application with user authentication, product management, and shopping cart functionality.
 
@@ -239,7 +239,7 @@ imageUrl: "https://images.example.com/backpack.jpg"
 ## Project Structure
 
 ```
-scatch/
+Ecomm-App/
 ├── config/
 │   ├── development.json       # Database config
 │   ├── mongoose-connection.js # DB connection setup
